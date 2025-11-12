@@ -46,7 +46,9 @@ export default function CrudApp() {
    const [dataToEdit, setDataToEdit] = useState(null);
 
    const handleCreate = (newTechnology) => {
-      const nextId = technologies.length + 1;
+      const idTechnologies = technologies.map((tech) => tech.id)
+      const nextId = idTechnologies.reduce((prev, current) => Math.max(prev, current)) + 1;
+
       newTechnology.id = nextId;
       setTechnologies([...technologies, newTechnology]);
    }
@@ -56,14 +58,15 @@ export default function CrudApp() {
    }
 
    const handleUpdate = (updatedTechnology) => {
-      setTechnologies(technologies.map((tech) => {
-         tech.id === updatedTechnology ? updatedTechnology : tech
-      }));
+      setTechnologies(technologies.map((tech) =>
+         tech.id === updatedTechnology.id ? updatedTechnology : tech));
       setDataToEdit(null);
    }
 
-   const handleRemove = (e) => {
-      console.log("Removiendo...", e);
+   const handleRemove = (id) => {
+      setTechnologies(technologies.filter((tech) =>
+         tech.id !== id
+      ))
    }
 
    return (
@@ -73,6 +76,7 @@ export default function CrudApp() {
          <CrudForm
             handleCreate={handleCreate}
             handleUpdate={handleUpdate}
+            handleEdit={handleEdit}
             dataToEdit={dataToEdit}
          />
 

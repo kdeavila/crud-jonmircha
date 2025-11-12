@@ -3,18 +3,18 @@ import { useState, useEffect } from "react";
 const initialformData = { id: null, name: "", link: "", };
 const errorStyles = { fontSize: "14px", color: "red" };
 
-export default function CrudformData({ handleCreate, handleUpdate, dataToEdit }) {
+export default function CrudForm({ handleCreate, handleUpdate, handleEdit, dataToEdit }) {
    const [formData, setFormData] = useState(initialformData);
    const [error, setError] = useState(null);
 
    const isEditing = formData.id !== null;
 
    useEffect(() => {
-      if (!dataToEdit) {
-         setFormData(initialformData);
+      if (dataToEdit) {
+         setFormData(dataToEdit);
          return;
       };
-      setFormData(dataToEdit);
+      setFormData(initialformData);
 
    }, [dataToEdit]);
 
@@ -33,15 +33,15 @@ export default function CrudformData({ handleCreate, handleUpdate, dataToEdit })
 
       if (formData.id === null) {
          handleCreate(formData);
+         handleReset();
       } else {
          handleUpdate(formData);
       }
-
-      handleReset();
    }
 
    const handleReset = () => {
       setFormData(initialformData);
+      handleEdit(null);
    }
 
    const handleChange = (e) => {

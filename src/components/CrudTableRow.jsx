@@ -8,7 +8,7 @@ export default function CrudTableRow({ technology, handleEdit, handleRemove }) {
          <td>{link}</td>
          <td>
             <button onClick={() => handleEdit(technology)}>✏️</button>
-            <button onClick={(e) => handleRemove(e.target)}>🗑️</button>
+            <button onClick={() => handleRemove(technology.id)}>🗑️</button>
          </td>
       </tr>
    )

@@ -14,13 +14,14 @@ export default function CrudTable({ technologies, handleEdit, handleRemove }) {
 
          <tbody>
             {technologies.length !== 0 ? (
-               technologies.map((t) =>
+               technologies.map((tech) =>
                   <CrudTableRow
-                     key={t.id}
-                     technology={t}
+                     key={tech.id}
+                     technology={tech}
                      handleEdit={handleEdit}
                      handleRemove={handleRemove}
-                  />)
+                  />
+               )
             ) : (
                <tr>
                   <td colSpan={3}>There's no data to show</td>
