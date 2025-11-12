@@ -3,6 +3,8 @@ import { useState } from "react";
 import CrudForm from "./CrudForm"
 import CrudTable from "./CrudTable"
 
+import "../CrudApp.css"
+
 const initialTechnologies = [
    {
       id: 1,
@@ -71,7 +73,7 @@ export default function CrudApp() {
 
    return (
       <section>
-         <h2>CRUD TECHNOLOGIES</h2>
+         <h2>CRUD TECHNOLOGIES 🚀</h2>
          <hr />
          <CrudForm
             handleCreate={handleCreate}
