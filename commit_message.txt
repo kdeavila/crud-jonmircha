@@ -1,9 +1,0 @@
-feat: implement CrudApi component and integrate with json-server
-
-- Add `json-server` dependency to simulate a REST API.
-- Create `db.json` with initial data for the API.
-- Add npm script `fake-api` to run `json-server`.
-- Implement `CrudApi` component to perform CRUD operations against the local API.
-- Replace `CrudApp` with `CrudApi` in the main `App` component.
-- Update `index.html` title to "CRUD API".
-- Delete unused `CrudApp` component and its related files.
