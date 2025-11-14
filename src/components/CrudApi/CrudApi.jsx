@@ -2,12 +2,15 @@ import "./CrudApi.css"
 
 import CrudApiForm from "./CrudApiForm"
 import CrudApiTable from "./CrudApiTable"
+import useCrudApi from "../../hooks/useCrudApi"
 
 import { useState } from "react";
 
 export function CrudApi() {
    const [technologies, setTechnologies] = useState([]);
    const [dataToEdit, setDataToEdit] = useState(null);
+
+   const { data } = useCrudApi("frameworks");
 
    const handleCreate = (newTechnology) => {
       const idTechnologies = technologies.map((tech) => tech.id)
@@ -45,7 +48,7 @@ export function CrudApi() {
          />
 
          <CrudApiTable
-            technologies={technologies}
+            technologies={data}
             handleEdit={handleEdit}
             handleRemove={handleRemove}
          />

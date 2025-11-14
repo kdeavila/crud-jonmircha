@@ -1,24 +1,30 @@
 import { useState } from "react";
-import { useCallback } from "react";
 import { apiGet, apiPost, apiPut, apiDelete } from "../api/apiHelpers";
+import { useEffect } from "react";
 
 export default function useCrudApi(endpoint) {
    const [data, setData] = useState([]);
    const [loading, setLoading] = useState(false);
    const [error, setError] = useState(null);
 
-   const get = useCallback(async () => {
-      setLoading(true);
-      setError(null);
+   useEffect(() => {
+      const get = async () => {
+         setLoading(true);
+         setError(null);
 
-      try {
-         const res = await apiGet(endpoint);
-         setData(res || []);
-      } catch (error) {
-         setError(error);
-      } finally {
-         setLoading(false);
-      }
+         try {
+            const res = await apiGet(endpoint);
+            console.log("Datos obtenidos:", res);
+            setData(res || []);
+         } catch (err) {
+            console.error("Error en get:", err);
+            setError(err);
+         } finally {
+            setLoading(false);
+         }
+      };
+
+      get();
    }, [endpoint])
 
    const create = async (item) => {
@@ -65,5 +71,5 @@ export default function useCrudApi(endpoint) {
       }
    }
 
-   return { data, loading, error, get, create, update, remove }
+   return { data, loading, error, create, update, remove }
 }
