@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 const initialformData = { id: null, name: "", link: "", };
-const errorStyles = { fontSize: "14px", color: "red" };
+const errorStyles = { fontSize: "14px", color: "red", textAlign: "center" };
 
 export default function CrudForm({ handleCreate, handleUpdate, handleEdit, dataToEdit }) {
    const [formData, setFormData] = useState(initialformData);

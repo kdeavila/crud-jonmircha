@@ -1,0 +1,39 @@
+{
+   "frameworks": [
+      {
+         "id": 1,
+         "name": "React",
+         "link": "https://react.dev"
+      },
+      {
+         "id": 2,
+         "name": "Vitest",
+         "link": "https://vitest.dev/"
+      },
+      {
+         "id": 3,
+         "name": "Angular",
+         "link": "https://angular.dev/"
+      },
+      {
+         "id": 4,
+         "name": "Vue",
+         "link": "https://vuejs.org/"
+      },
+      {
+         "id": 5,
+         "name": "Solid",
+         "link": "https://www.solidjs.com/"
+      },
+      {
+         "id": 6,
+         "name": "Svelte",
+         "link": "https://svelte.dev/"
+      },
+      {
+         "id": 7,
+         "name": "Prect",
+         "link": "https://preactjs.com/"
+      }
+   ]
+}

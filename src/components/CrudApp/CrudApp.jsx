@@ -1,9 +1,9 @@
-import { useState } from "react";
+import "./CrudApp.css"
 
 import CrudForm from "./CrudForm"
 import CrudTable from "./CrudTable"
 
-import "../CrudApp.css"
+import { useState } from "react";
 
 const initialTechnologies = [
    {
@@ -66,6 +66,9 @@ export default function CrudApp() {
    }
 
    const handleRemove = (id) => {
+      const isConfirm = confirm("Are you sure you want to delete the resource?");
+      if (!isConfirm) return;
+
       setTechnologies(technologies.filter((tech) =>
          tech.id !== id
       ))
@@ -73,7 +76,7 @@ export default function CrudApp() {
 
    return (
       <section>
-         <h2>CRUD TECHNOLOGIES 🚀</h2>
+         <h2>CRUD STATE TECHNOLOGIES</h2>
          <hr />
          <CrudForm
             handleCreate={handleCreate}
