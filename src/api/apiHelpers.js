@@ -21,14 +21,13 @@ const request = async (endpoint, { method = "GET", headers = {}, body } = {}) =>
 
       return isJson ? await res.json() : null;
    } catch (error) {
-      console.error(error);
       throw error;
    }
 }
 
-export const apiGet = (endpoint) => request(endpoint);
-export const apiPost = (endpoint, body) => request(endpoint, { method: "POST", body });
-export const apiPut = (endpoint, body) => request(endpoint, { method: "PUT", body });
-export const apiDelete = (endpoint) => request(endpoint, { method: "DELETE" });
+const apiGet = (endpoint) => request(endpoint);
+const apiPost = (endpoint, body) => request(endpoint, { method: "POST", body });
+const apiPut = (endpoint, body) => request(endpoint, { method: "PUT", body });
+const apiDelete = (endpoint) => request(endpoint, { method: "DELETE" });
 
 export default { request, apiGet, apiPost, apiPut, apiDelete };

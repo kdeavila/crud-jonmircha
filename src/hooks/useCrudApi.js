@@ -1,5 +1,6 @@
+import apiHelper from "../api/apiHelpers";
+
 import { useState } from "react";
-import { apiGet, apiPost, apiPut, apiDelete } from "../api/apiHelpers";
 import { useEffect } from "react";
 
 export default function useCrudApi(endpoint) {
@@ -13,11 +14,9 @@ export default function useCrudApi(endpoint) {
          setError(null);
 
          try {
-            const res = await apiGet(endpoint);
-            console.log("Datos obtenidos:", res);
+            const res = await apiHelper.apiGet(endpoint);
             setData(res || []);
          } catch (err) {
-            console.error("Error en get:", err);
             setError(err);
          } finally {
             setLoading(false);
@@ -32,7 +31,7 @@ export default function useCrudApi(endpoint) {
       setError(null);
 
       try {
-         const res = await apiPost(endpoint, item);
+         const res = await apiHelper.apiPost(endpoint, item);
          setData((prev) => [...prev, res]);
          return res;
       } catch (error) {
@@ -47,7 +46,7 @@ export default function useCrudApi(endpoint) {
       setError(null);
 
       try {
-         const res = await apiPut(`${endpoint}/${id}`, updates);
+         const res = await apiHelper.apiPut(`${endpoint}/${id}`, updates);
          setData((prev) => prev.map((p) => p.id === id ? res : p));
          return res;
       } catch (error) {
@@ -62,7 +61,7 @@ export default function useCrudApi(endpoint) {
       setError(null);
 
       try {
-         await apiDelete(`${endpoint}/${id}`);
+         await apiHelper.apiDelete(`${endpoint}/${id}`);
          setData((prev) => prev.filter((p) => p.id !== id));
       } catch (error) {
          setError(error);

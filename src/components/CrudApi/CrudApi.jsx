@@ -1,23 +1,31 @@
 import "./CrudApi.css"
 
+import Loader from "./Loader"
 import CrudApiForm from "./CrudApiForm"
 import CrudApiTable from "./CrudApiTable"
 import useCrudApi from "../../hooks/useCrudApi"
 
 import { useState } from "react";
+import { useEffect } from "react";
+
+const errorStyles = { fontSize: "14px", color: "red", textAlign: "center" };
 
 export function CrudApi() {
+   const { data, loading, error, create, update, remove } = useCrudApi("frameworks");
+
    const [technologies, setTechnologies] = useState([]);
    const [dataToEdit, setDataToEdit] = useState(null);
 
-   const { data } = useCrudApi("frameworks");
+   useEffect(() => {
+      setTechnologies(data);
+   }, [data])
 
    const handleCreate = (newTechnology) => {
-      const idTechnologies = technologies.map((tech) => tech.id)
-      const nextId = idTechnologies.reduce((prev, current) => Math.max(prev, current)) + 1;
+      const idTechnologies = technologies.map((tech) => Number(tech.id))
+      const nextId = idTechnologies.reduce((prev, current) => Math.max(prev, current), 0) + 1;
 
-      newTechnology.id = nextId;
-      setTechnologies([...technologies, newTechnology]);
+      newTechnology.id = nextId.toString();
+      create(newTechnology);
    }
 
    const handleEdit = (technology) => {
@@ -25,21 +33,23 @@ export function CrudApi() {
    }
 
    const handleUpdate = (updatedTechnology) => {
-      setTechnologies(technologies.map((tech) =>
-         tech.id === updatedTechnology.id ? updatedTechnology : tech));
+      update(updatedTechnology.id, updatedTechnology);
       setDataToEdit(null);
    }
 
    const handleRemove = (id) => {
-      setTechnologies(technologies.filter((tech) =>
-         tech.id !== id
-      ))
+      const isConfirm = confirm("Are you sure you want to delete the resource?");
+      if (!isConfirm) return;
+
+      setDataToEdit(null);
+      remove(id);
    }
 
    return (
       <section>
          <h2>CRUD API TECHNOLOGIES</h2>
          <hr />
+
          <CrudApiForm
             handleCreate={handleCreate}
             handleUpdate={handleUpdate}
@@ -47,11 +57,18 @@ export function CrudApi() {
             dataToEdit={dataToEdit}
          />
 
-         <CrudApiTable
-            technologies={data}
-            handleEdit={handleEdit}
-            handleRemove={handleRemove}
-         />
+         {error && <p style={errorStyles}>Error {error.status}: {error.message}</p>}
+
+         {loading ? (
+            <Loader />
+         ) : (
+            <CrudApiTable
+               technologies={technologies}
+               handleEdit={handleEdit}
+               handleRemove={handleRemove}
+            />
+         )}
+
       </section>
    )
 }
