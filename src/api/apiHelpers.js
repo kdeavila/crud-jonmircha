@@ -1,6 +1,6 @@
 const API_BASE = "http://localhost:5000/"
 
-const request = async (endpoint, { method = "GET", headers = {}, body }) => {
+const request = async (endpoint, { method = "GET", headers = {}, body } = {}) => {
    const url = `${API_BASE}${endpoint}`;
    const options = {
       method,
@@ -19,8 +19,8 @@ const request = async (endpoint, { method = "GET", headers = {}, body }) => {
          throw { status: res.status, message, body: errBody }
       }
 
+      return isJson ? await res.json() : null;
    } catch (error) {
-      console.error(error);
       throw error;
    }
 }
@@ -28,6 +28,6 @@ const request = async (endpoint, { method = "GET", headers = {}, body }) => {
 const apiGet = (endpoint) => request(endpoint);
 const apiPost = (endpoint, body) => request(endpoint, { method: "POST", body });
 const apiPut = (endpoint, body) => request(endpoint, { method: "PUT", body });
-const apiDelete = (endpoint) => request(endpoint);
+const apiDelete = (endpoint) => request(endpoint, { method: "DELETE" });
 
 export default { request, apiGet, apiPost, apiPut, apiDelete };

@@ -1,24 +1,29 @@
+import apiHelper from "../api/apiHelpers";
+
 import { useState } from "react";
-import { useCallback } from "react";
-import { apiGet, apiPost, apiPut, apiDelete } from "../api/apiHelpers";
+import { useEffect } from "react";
 
 export default function useCrudApi(endpoint) {
    const [data, setData] = useState([]);
    const [loading, setLoading] = useState(false);
    const [error, setError] = useState(null);
 
-   const get = useCallback(async () => {
-      setLoading(true);
-      setError(null);
+   useEffect(() => {
+      const get = async () => {
+         setLoading(true);
+         setError(null);
 
-      try {
-         const res = await apiGet(endpoint);
-         setData(res || []);
-      } catch (error) {
-         setError(error);
-      } finally {
-         setLoading(false);
-      }
+         try {
+            const res = await apiHelper.apiGet(endpoint);
+            setData(res || []);
+         } catch (err) {
+            setError(err);
+         } finally {
+            setLoading(false);
+         }
+      };
+
+      get();
    }, [endpoint])
 
    const create = async (item) => {
@@ -26,7 +31,7 @@ export default function useCrudApi(endpoint) {
       setError(null);
 
       try {
-         const res = await apiPost(endpoint, item);
+         const res = await apiHelper.apiPost(endpoint, item);
          setData((prev) => [...prev, res]);
          return res;
       } catch (error) {
@@ -41,7 +46,7 @@ export default function useCrudApi(endpoint) {
       setError(null);
 
       try {
-         const res = await apiPut(`${endpoint}/${id}`, updates);
+         const res = await apiHelper.apiPut(`${endpoint}/${id}`, updates);
          setData((prev) => prev.map((p) => p.id === id ? res : p));
          return res;
       } catch (error) {
@@ -56,7 +61,7 @@ export default function useCrudApi(endpoint) {
       setError(null);
 
       try {
-         await apiDelete(`${endpoint}/${id}`);
+         await apiHelper.apiDelete(`${endpoint}/${id}`);
          setData((prev) => prev.filter((p) => p.id !== id));
       } catch (error) {
          setError(error);
@@ -65,5 +70,5 @@ export default function useCrudApi(endpoint) {
       }
    }
 
-   return { data, loading, error, get, create, update, remove }
+   return { data, loading, error, create, update, remove }
 }
