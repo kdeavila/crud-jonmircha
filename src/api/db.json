@@ -1,11 +1,6 @@
 {
   "frameworks": [
     {
-      "id": "1",
-      "name": "React",
-      "link": "https://react.dev"
-    },
-    {
       "id": "2",
       "name": "Angular",
       "link": "https://angular.dev"
@@ -19,6 +14,11 @@
       "id": "4",
       "name": "Astro",
       "link": "https://astro.build/"
+    },
+    {
+      "id": "5",
+      "name": "Nextjs",
+      "link": "https://nextjs.org/"
     }
   ]
 }
