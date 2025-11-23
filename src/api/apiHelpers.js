@@ -8,21 +8,17 @@ const request = async (endpoint, { method = "GET", headers = {}, body } = {}) =>
       body: body !== undefined ? JSON.stringify(body) : undefined,
    }
 
-   try {
-      const res = await fetch(url, options);
-      const contentType = res.headers.get("content-type") || "";
-      const isJson = contentType.includes("application/json");
+   const res = await fetch(url, options);
+   const contentType = res.headers.get("content-type") || "";
+   const isJson = contentType.includes("application/json");
 
-      if (!res.ok) {
-         const errBody = isJson ? await res.json() : await res.text();
-         const message = errBody?.message || res.statusText || "Network error"
-         throw { status: res.status, message, body: errBody }
-      }
-
-      return isJson ? await res.json() : null;
-   } catch (error) {
-      throw error;
+   if (!res.ok) {
+      const errBody = isJson ? await res.json() : await res.text();
+      const message = errBody?.message || res.statusText || "Network error"
+      throw { status: res.status, message, body: errBody }
    }
+
+   return isJson ? await res.json() : null;
 }
 
 const apiGet = (endpoint) => request(endpoint);
