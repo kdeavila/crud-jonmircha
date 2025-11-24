@@ -10,7 +10,7 @@ import { useEffect } from "react";
 
 const errorStyles = { fontSize: "14px", color: "red", textAlign: "center" };
 
-export function CrudApi() {
+export default function CrudApi() {
    const { data, loading, error, create, update, remove } = useCrudApi("frameworks");
 
    const [technologies, setTechnologies] = useState([]);

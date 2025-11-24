@@ -1,7 +1,5 @@
 import apiHelper from "../api/apiHelpers";
-
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 
 export default function useCrudApi(endpoint) {
    const [data, setData] = useState([]);
