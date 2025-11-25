@@ -10,7 +10,7 @@ const errorStyles = {
    textAlign: "center"
 }
 
-export default function SearchSongForm() {
+export default function SearchSongForm({ handleSearch }) {
    const [formData, setFormData] = useState(initialForm);
    const [error, setError] = useState(null);
 
@@ -27,7 +27,7 @@ export default function SearchSongForm() {
          return;
       }
 
-      console.log(formData);
+      handleSearch(formData);
    }
 
    const handleReset = () => {

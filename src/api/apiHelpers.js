@@ -1,29 +1,34 @@
-const API_BASE = "http://localhost:5000/"
+export default async function helpFetch(url, options = {}) {
+   const defaultHeaders = {
+      "Content-Type": "application/json",
+      Accept: "application/json"
+   };
 
-const request = async (endpoint, { method = "GET", headers = {}, body } = {}) => {
-   const url = `${API_BASE}${endpoint}`;
-   const options = {
-      method,
-      headers: { "Content-type": "application/json", ...headers },
-      body: body !== undefined ? JSON.stringify(body) : undefined,
+   const controller = new AbortController();
+   options.signal = controller.signal;
+
+   options.method = options.method || "GET";
+   options.headers = options.headers
+      ? { ...defaultHeaders, ...options.headers }
+      : defaultHeaders;
+
+   options.body = JSON.stringify(options.body) || false;
+   if (!options.body) delete options.body;
+
+   setTimeout(() => {
+      controller.abort();
+   }, 3000);
+
+   try {
+      const res = await fetch(url, options);
+
+      if (!res.ok) {
+         throw new Error(`Request failed with status ${res.status}`);
+      }
+
+      return await res.json();
+   } catch (err) {
+      console.error(err);
+      return { err: true, status: err.message || "Unexpected error" }
    }
-
-   const res = await fetch(url, options);
-   const contentType = res.headers.get("content-type") || "";
-   const isJson = contentType.includes("application/json");
-
-   if (!res.ok) {
-      const errBody = isJson ? await res.json() : await res.text();
-      const message = errBody?.message || res.statusText || "Network error"
-      throw { status: res.status, message, body: errBody }
-   }
-
-   return isJson ? await res.json() : null;
 }
-
-const apiGet = (endpoint) => request(endpoint);
-const apiPost = (endpoint, body) => request(endpoint, { method: "POST", body });
-const apiPut = (endpoint, body) => request(endpoint, { method: "PUT", body });
-const apiDelete = (endpoint) => request(endpoint, { method: "DELETE" });
-
-export default { request, apiGet, apiPost, apiPut, apiDelete };
